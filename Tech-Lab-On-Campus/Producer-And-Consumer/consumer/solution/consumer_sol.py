@@ -14,6 +14,7 @@
 
 import pika
 import os
+import json
 
 class mqConsumer:
     def __init__(
@@ -38,7 +39,7 @@ class mqConsumer:
         self.channel.queue_declare(queue=self.queue_name, durable=True)
         
         # Create the exchange if not already present
-        self.exchange = self.channel.exchange_declare(exchange=self.exchange_name, exchange_type="direct")
+        self.exchange = self.channel.exchange_declare(exchange=self.exchange_name, exchange_type="topic")
         
         # Bind Binding Key to Queue on the exchange
         self.channel.queue_bind(
@@ -61,7 +62,8 @@ class mqConsumer:
         channel.basic_ack(delivery_tag=method_frame.delivery_tag)
         
         #Print message
-        print(" [x] Received %r" % body)
+        message = json.loads(body)
+        print(" [x] Received %r" % message)
         
         # Close channel and connection
         channel.close()
