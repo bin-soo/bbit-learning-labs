@@ -25,7 +25,6 @@ def main() -> None:
     producer = mqProducer(routing_key="Tech Lab Key",exchange_name="Tech Lab Exchange")
     producer.publishOrder("Success! Producer And Consumer Section Complete.")
 
-
 if __name__ == "__main__":
     try:
         main()
