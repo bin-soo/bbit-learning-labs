@@ -18,10 +18,14 @@ import os
 import sys
 
 from solution.consumer_sol import mqConsumer  # pylint: disable=import-error
-
+import argparse
+parser = argparse.ArgumentParser()
 
 def main() -> None:
-    consumer = mqConsumer(binding_key="Tech Lab Key",exchange_name="Tech Lab Exchange",queue_name="Tech Lab Queue")
+    parser.add_argument('-s', '--section')
+    args = parser.parse_args()
+
+    consumer = mqConsumer(binding_key=f"*.{args.section}.*",exchange_name=f"{args.section} Lab Exchange",queue_name=f"{args.section} Lab Queue")
     consumer.startConsuming()
 
 
